@@ -1,0 +1,573 @@
+header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.Maxwidth{
+    width: 960px;
+}
+.generalPad{
+    padding: 10rem 0;
+}
+.specialColor{
+    color: hsl(15, 100%, 44%);
+}
+button{
+    background-color: hsl(15, 100%, 44%);
+    border-radius: 1rem;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: bolder;
+    width: 13rem;
+    color: white;
+    /* transición y origen para el hover/scale */
+    transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+    transform-origin: center;
+}
+/* Hover/Focus/Active para botones */
+button:hover,
+button:focus-visible{
+    transform: scale(1.04);
+    box-shadow: 0 8px 24px rgba(14,21,47,0.12);
+}
+button:active{
+    transform: scale(0.99);
+}
+/* Cambia tono del color de fondo al hacer hover (un poco más oscuro) */
+button:hover{
+    background-color: hsl(15, 100%, 38%);
+}
+/* Ajustes específicos para botones con fondo transparente (.NoBG) */
+.NoBG{
+    background-color: transparent;
+    border: 0.3rem solid hsl(15, 100%, 44%);
+    color: hsl(15, 100%, 44%);
+    transition: transform .15s ease, background-color .15s ease, box-shadow .15s ease;
+}
+.NoBG:hover,
+.NoBG:focus-visible{
+    transform: scale(1.02);
+    /* ligero fondo para aumentar contraste sin romper la paleta */
+    background-color: rgba(255, 207, 182, 0.12);
+}
+#root > section:nth-of-type(odd){
+    background-color: rgba(255, 238, 218, 0.44);
+}
+
+/*Hero*/
+.Head{
+    background-image: url(../assets/placeholderBackgorund.jpg);
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    color: white;
+    position: relative;
+}
+.InerHead{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.BodyHead{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    gap: 2rem;
+}
+.BodyHeadText{
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.Header{
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+}
+#Logo1{
+    width: 10rem;
+    height: 10rem;
+}
+#heroWord{
+    font-size: 48px;
+    font-weight: bolder;
+}
+nav{
+    display: flex;
+    gap: 2rem;
+    font-weight: bold;
+}
+nav a{
+    color: inherit; /* hereda blanco del header */
+    text-decoration: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    transition: color .15s ease, background-color .15s ease, transform .12s ease, box-shadow .12s ease;
+    cursor: pointer;
+}
+nav a:hover,
+nav a:focus-visible{
+    color: hsl(15, 100%, 44%); /* color CTA en hover */
+    background-color: rgba(255,255,255,0.06); /* halo blanquecino y translúcido */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(14,21,47,0.06);
+    outline: none;
+}
+nav a:focus-visible{
+    box-shadow: 0 6px 22px rgba(14,21,47,0.10);
+}
+.Buttons{
+    display: flex;
+    gap: 3rem;
+    font-weight: bolder;
+}
+.NoBG{
+    background-color: transparent;
+    border: 0.3rem solid hsl(15, 100%, 44%);
+    color: hsl(15, 100%, 44%);
+}
+#exampleClient{
+    width: 25rem;
+    height: 25rem;
+}
+/*Oscurecimeinto de fondo de heroe*/
+.Head .overlay {
+  position: absolute;
+  inset: 0; 
+  background: hsl(30, 100%, 4%,0.9); 
+  z-index: 0;
+  pointer-events: none;
+}
+.Head > * , .Head .InerHead, .Head .BodyHead {
+  position: relative;
+  z-index: 1;
+}
+/*Oscurecimeinto de fondo de heroe*/
+/*Hero*/
+/*Beneficios*/
+
+.Benefits{
+    padding: 2.5rem 0;
+    display: flex;
+    justify-content: center;
+}
+.ListBenefit{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+.Benefit{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem 1.5rem;
+    background-color: white;
+    border-radius: 3.125rem;
+    justify-content: center;
+    gap: 1.5rem;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+}
+.Tittle-benefit{
+    font-size: 1.5rem;
+    font-weight: bolder;
+    color: hsl(15, 100%, 44%);
+}
+.Text-benefit{
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+}
+.icon-benefit{
+    width: 6rem;
+    height: 6rem;
+    fill: rgba(75, 41, 1, 1);
+}
+/*Beneficios*/
+/*Nosotros*/
+.About-Us{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5rem;
+}
+.Us{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+}
+#Logo2{
+    width: 25rem;
+}
+#textSlogan{
+    font-size: 1.5rem;
+    font-weight: bolder;
+    text-align: center;
+    width: 75%;
+}
+.Cards{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas: la grande ocupa ambas, las pequeñas cada una */
+    gap: 2.5rem;
+    align-items: start;
+}
+
+
+.LargeCard{
+    grid-column: 1 / -1; 
+    min-height: 25rem; 
+    background-color: rgba(75, 41, 1, 1);
+    border-radius: 3.125rem;
+    padding: 5rem 3rem; 
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    gap: 1.5rem;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.Card{
+    background-color: rgba(75, 41, 1, 1);
+    border-radius: 3.125rem;
+    min-height: 14rem; /* aumentado para cards pequeñas */
+    box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#Logo3{
+    position: absolute;
+    right: 1rem;
+    top: 70%;
+    transform: translateY(-50%);
+    z-index: 0;
+    width: 22rem;
+}
+#nosotrosTitle{
+    position: relative;
+    font-size: 2.25rem;
+    font-weight: bolder;
+    color: white;
+    z-index: 1;
+    width: 60%;
+}
+#nosotrosText{
+    position: relative;
+    font-size: 1rem;
+    color: white;
+    width: 80%;
+    z-index: 1;
+    font-weight: regular;
+}
+.Title{
+    width: 100%;
+    flex-grow: 1;
+    color: white;
+    font-size: 2.25rem;
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.Text{
+    width: 100%;
+    flex-grow: 2;
+    color: black;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.textSize{
+    width: 90%;
+    text-align: center;
+}
+.ctaHolder{
+    display: flex;
+    background-image: url(../assets/ctaHolder.svg);
+    background-size: cover;
+    background-position: center;
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3.125rem;
+    height: 21.875rem;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+#ctaTitle{
+    font-size: 2.25rem;
+    font-weight: bolder;
+    color: black;
+    text-align: center;
+    width: 40%;
+}
+#ctaText{
+    font-size: 1rem;
+    color: black;
+    text-align: center;
+    width: 50%;
+}
+/*Nosotros*/
+/*Contacto*/
+.contactanos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.SectionsTitle{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 2.75rem;
+    font-weight: bolder;
+    text-align: center;
+    color: hsl(15, 100%, 44%);
+    gap: 0.5rem;
+}
+.underline{
+    width: 30%;
+    border: 0.2rem solid rgba(75, 41, 1, 1);
+}
+.contact-Us{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5rem;
+}
+.forms-contact{
+    display: flex;
+    gap: 2.5rem;    
+    align-items: center;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    background-color: rgba(75, 41, 1, 1);
+    padding: 2rem;
+    color: white;
+    border-radius: 3.125rem;
+    box-shadow: 0 10px 30px rgba(14,21,47,0.06);
+    width: 100%;
+}
+
+form > button{
+    align-self: center;
+    font-size: 2.25rem;
+}
+.factoria{
+    font-size: 2.25rem;
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+}
+.form-group{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.form-group > input{
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: none;
+    font-size: 1rem;
+    background-color: white;
+    color: black;
+}
+.form-group > textarea{
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: none;
+    font-size: 1rem;
+    background-color: white;
+    color: black;
+}
+.form-select{
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: none;
+    font-size: 1rem;
+}
+
+/* Radios estilizados dentro de .form-select */
+.form-select .radio-options{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.form-select input[type="radio"]{
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none; /* input real queda accesible pero invisible */
+}
+
+.form-select label{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    user-select: none;
+    padding: 0.5rem 1rem; /* área clicable grande */
+    border-radius: 999px;
+    transition: transform .12s ease, box-shadow .12s ease, color .12s ease;
+    background: transparent;
+}
+
+.form-select label::before{
+    content: "";
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    border: 2px solid rgba(0,0,0,0.12);
+    background: #fff;
+    display: inline-block;
+    flex: 0 0 auto;
+    transition: all .12s ease;
+}
+
+.form-select input[type="radio"]:checked + label{
+    color: hsl(15 100% 44%);
+    transform: translateY(-2px);
+}
+
+.form-select input[type="radio"]:checked + label::before{
+    background: hsl(15 100% 44%);
+    border-color: hsl(15 100% 44%);
+    box-shadow: inset 0 0 0 .35rem rgba(255,255,255,0.12);
+}
+
+.form-select input[type="radio"]:focus-visible + label::before{
+    outline: 3px solid rgba(21,120,255,0.18);
+    outline-offset: 4px;
+}
+/* Otras formas de contacto (diseño tipo card) */
+.otrasformas{
+    background-color: rgba(255, 238, 218, 0.44); /* tono crema claro solicitado */
+    border-radius: 3.125rem;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(14,21,47,0.06);
+    display: flex;
+    flex-direction: column; /* título arriba, contenido debajo */
+    gap: 2rem;
+    align-items: stretch;
+    width: 100%;
+    justify-content: center;
+    height: 39rem;
+}
+
+.otras-title{
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: rgba(75, 41, 1, 1); /* color de título solicitado */
+}
+
+.otras-content{
+    display: flex;
+    flex-direction: column; /* filas apiladas: icon + texto */
+    align-items: stretch;
+    gap: 1.75rem;
+    padding-left: 1rem; /* ajustar separación izquierda dentro de la card */
+}
+
+.otrasformas .contact-row{
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.otrasformas .icon-circle{
+    width: 3.5rem;
+    height: 3.5rem;
+    min-width: 3.5rem;
+    min-height: 3.5rem;
+    border-radius: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    font-size: 1.25rem;
+    flex: 0 0 auto;
+}
+
+.otrasformas .contact-sub{
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: #000; /* texto en negro solicitado */
+}
+.icon-circle svg{
+    fill: rgba(75, 41, 1, 1);
+}
+
+/*Contacto*/
+/*Footer*/
+footer{
+    background-color: rgba(19, 11, 0, 1);
+    display: flex;
+    justify-content: center;
+    padding: 5rem;
+}
+.footerCont{
+    display: flex;
+    justify-content: space-between;
+}
+.logo-container{
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+.Navegar{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    color: white;
+    font-size: 1rem;
+    font-weight: lighter;
+}
+#Logo4{
+    width: 20rem;
+}
+#mockup{
+    width: 10rem;
+} 
+.Navegar-title{
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: white;
+}
+.textfooter:hover{
+    color: hsl(15, 100%, 44%); /* color CTA en hover */
+}
+/*Footer*/
+
+@media (max-width: 720px){
+    .otrasformas{ padding: 2rem; }
+    .otras-content{ gap: 1rem; padding-left: 0; }
+    .otrasformas .icon-circle{ width: 3rem; height: 3rem; min-width: 3rem; min-height: 3rem; }
+}
+
+/* Responsive: apilar en móvil */
+@media (max-width: 768px){
+    .Cards{ grid-template-columns: 1fr; }
+    .LargeCard{ grid-column: auto; }
+}
+/* pequeño ajuste para móvil: apilar si es necesario */
+@media (max-width: 480px){
+    .form-select .radio-options{ flex-direction: column; align-items: flex-start; }
+}
