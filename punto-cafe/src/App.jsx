@@ -6,27 +6,22 @@ import logo3 from "./assets/Frame.svg"
 import ctaHolder from "./assets/mockupe.svg"
 import "./components/app.css"
 
-
-
-
-
-
 function App() {
 
   return (
     <>
     <header className="Head">
         <div className="overlay"></div>
-        <section className="Header">
-          <section className='InerHead Maxwidth'>
-            <img id='Logo1' src={logo} alt="Logo puntocafe"/>
-            <nav>
-              <a href="#">Inicio</a>
-              <a href="#">Servicios</a>
-              <a href="#">Nosotros</a>
-              <a href="#">Contacto</a>
-            </nav>
-          </section>
+          <section className="Header">
+            <section className='InerHead Maxwidth'>
+              <img id='Logo1' src={logo} alt="Logo puntocafe"/>
+              <nav>
+                <a href="#">Inicio</a>
+                <a href="#">Servicios</a>
+                <a href="#">Nosotros</a>
+                <a href="#">Contacto</a>
+              </nav>
+            </section>
         </section>
         <section className='BodyHead Maxwidth'>
           <div className='BodyHeadText'>
