@@ -5,8 +5,22 @@ import logo2 from "./assets/puntocafe.svg"
 import logo3 from "./assets/Frame.svg"
 import ctaHolder from "./assets/mockupe.svg"
 import "./components/app.css"
+import exampleCell from "./assets/cellphone.svg"
 
 function App() {
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [indicatorsHover, setIndicatorsHover] = useState(false);
+  const goTo = (index) => setActiveIndex(index);
+  const onIndicatorKey = (e, index) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      setActiveIndex(index);
+    }
+  };
+
+  // helper used by indicator buttons
+  const setIndicatorHover = (val) => setIndicatorsHover(val);
 
   return (
     <>
@@ -23,17 +37,107 @@ function App() {
               </nav>
             </section>
         </section>
-        <section className='BodyHead Maxwidth'>
-          <div className='BodyHeadText'>
-            <p id='heroWord'>Un <span className='specialColor'>mapa</span> al <span className='specialColor'>cafe</span> perfecto, 
-            a un <span className='specialColor'>click</span> de <span className='specialColor'>distancia</span></p>
-            <div className='Buttons'>
-              <button>Buscar Cafeterias</button>
-              <button className='NoBG'>Tengo una cafeteria</button>
+
+        <div className="hero-carousel">
+          <div className="slides">
+            <div className={`slide ${activeIndex === 0 ? 'active' : ''}`} data-index="0" role="group" aria-roledescription="slide" aria-hidden={activeIndex !== 0} style={{display: activeIndex === 0 ? 'flex' : 'none'}}>
+              <section className='BodyHead Maxwidth'>
+                <div className='BodyHeadText'>
+                  <p className='heroWord'>Un <span className='specialColor'>mapa</span> al <span className='specialColor'>cafe</span> perfecto, 
+                  a un <span className='specialColor'>click</span> de <span className='specialColor'>distancia</span></p>
+                  <div className='Buttons'>
+                    <button>Buscar Cafeterias</button>
+                    <button className='NoBG'>Tengo una cafeteria</button>
+                  </div>
+                </div>
+                <img src={exampleClient} alt="Graphic example" className='exampleClient'/>
+              </section>
+            </div>
+
+            <div className={`slide ${activeIndex === 1 ? 'active' : ''}`} data-index="1" aria-hidden={activeIndex !== 1} style={{display: activeIndex === 1 ? 'flex' : 'none'}}>
+              <section className='BodyHeadCol Maxwidth'>
+                <p className='heroWord'>El <span className='specialColor'>cafe</span> es mucho mas que una <span className='specialColor'>bebida</span></p>
+                <div className='Squares'>
+                  <div className='aspect-square'>
+                    <div className='icon-holder'>
+                      <p>2,500M</p>
+                      <svg className='icon-quriositi' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>earth</title><path d="M17.9,17.39C17.64,16.59 16.89,16 16,16H15V13A1,1 0 0,0 14,12H8V10H10A1,1 0 0,0 11,9V7H13A2,2 0 0,0 15,5V4.59C17.93,5.77 20,8.64 20,12C20,14.08 19.2,15.97 17.9,17.39M11,19.93C7.05,19.44 4,16.08 4,12C4,11.38 4.08,10.78 4.21,10.21L9,15V16A2,2 0 0,0 11,18M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>
+                    </div>
+                    <p>Tazas de café se consumen cada día en todo el mundo. </p>
+                    <p className='textfooter'>Consumo Global</p>
+                  </div>
+                  <div className='aspect-square'>
+                    <div className='icon-holder'>
+                      <p>20 min</p>
+                      <svg className='icon-quriositi' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>lightning-bolt</title><path d="M11 15H6L13 1V9H18L11 23V15Z" /></svg>
+                    </div>
+                    <p>Es el tiempo que tarda la cafeína en hacer efecto y activarte.</p>
+                    <p className='textfooter'>Ciencia del cafe</p>
+                  </div>
+                  <div className='aspect-square'>
+                    <div className='icon-holder'>
+                      <p>+800</p>
+                      <svg className='icon-quriositi' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>scent</title><path d="M17.5 5.1C18.5 6.4 19 7.6 19 9C19 10.7 18.3 12.3 16.6 14.1C14.7 16.1 13 18.3 13 20.5C13 20.9 13.1 21.3 13.2 21.8C13.2 21.9 13.2 22 13.1 22.1C13 22.2 12.9 22.1 12.9 22C11.9 20.7 11.4 19.5 11.4 18.1C11.4 16.4 12.1 14.8 13.8 13C15.7 11 17.4 8.8 17.4 6.6C17.4 6.2 17.3 5.8 17.2 5.3C17.2 5.2 17.2 5.1 17.3 5C17.4 5 17.4 5 17.5 5.1M9.7 2.1C10.4 3 10.7 4 10.7 4.9C10.7 6.2 10.1 7.4 8.9 8.7C7.5 10.2 6.2 11.9 6.2 13.5C6.2 13.8 6.3 14.2 6.4 14.4C6.4 14.5 6.4 14.5 6.3 14.6C6.2 14.7 6.1 14.6 6.1 14.6C5.3 13.6 5 12.6 5 11.7C5 10.4 5.6 9.2 6.8 7.9C8.2 6.4 9.5 4.7 9.5 3.1C9.5 2.8 9.4 2.4 9.3 2.2V2C9.5 2 9.6 2 9.7 2.1M10.1 9.9C12 7.9 13.7 5.7 13.7 3.5C13.7 3.1 13.6 2.7 13.5 2.2C13.5 2.1 13.5 2 13.6 1.9C13.7 1.8 13.8 1.9 13.8 2C14.8 3.3 15.3 4.5 15.3 5.9C15.3 7.6 14.6 9.2 12.9 11C11 13 9.3 15.2 9.3 17.4C9.3 17.8 9.4 18.2 9.5 18.7C9.5 18.8 9.5 18.9 9.4 19C9.3 19.1 9.2 19 9.2 18.9C8.2 17.6 7.7 16.4 7.7 15C7.7 13.3 8.4 11.7 10.1 9.9Z" /></svg>
+                    </div>
+                    <p>El café tiene más compuestos aromáticos que el vino.</p>
+                    <p className='textfooter'>Sabores únicos</p>
+                  </div>
+                  <div className='aspect-square'>
+                    <div className='icon-holder'>
+                      <p>#5</p>
+                      <svg className='icon-quriositi' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>sprout</title><path d="M2,22V20C2,20 7,18 12,18C17,18 22,20 22,20V22H2M11.3,9.1C10.1,5.2 4,6.1 4,6.1C4,6.1 4.2,13.9 9.9,12.7C9.5,9.8 8,9 8,9C10.8,9 11,12.4 11,12.4V17C11.3,17 11.7,17 12,17C12.3,17 12.7,17 13,17V12.8C13,12.8 13,8.9 16,7.9C16,7.9 14,10.9 14,12.9C21,13.6 21,4 21,4C21,4 12.1,3 11.3,9.1Z" /></svg>
+                    </div>
+                    <p>México es top 5 en café de alta calidad.</p>
+                    <p className='textfooter'>Orgullo Nacional</p>
+                  </div>
+                </div>
+              </section>
+            </div>
+            <div className={`slide ${activeIndex === 2 ? 'active' : ''}`} data-index="2" aria-hidden={activeIndex !== 2} style={{display: activeIndex === 2 ? 'flex' : 'none'}}>
+              <div className='BodyHead Maxwidth'>
+                <div className='BodyHeadText'>
+                  <p className='heroWord'>LLeva punto<span className='specialColor'>cafe</span> en tu <span className='specialColor'>bolsillo</span></p>
+                  <img src={ctaHolder} alt="Buton mockup" id='button-mockup'/>
+                </div>
+                <div>
+                  <img src={exampleCell} className='exampleClient'  alt="Celular Mock up" />
+                </div>
+              </div>
             </div>
           </div>
-          <img src={exampleClient} alt="Graphic example" id='exampleClient'/>
-        </section>
+          <div className={`carousel-indicators ${indicatorsHover ? 'indicators-hover' : ''}`}>
+            <button
+              type="button"
+              data-index="0"
+              aria-label="Slide 1"
+              className={activeIndex === 0 ? 'active' : ''}
+              onClick={() => goTo(0)}
+              onKeyDown={(e) => onIndicatorKey(e, 0)}
+              onMouseEnter={() => setIndicatorHover(true)}
+              onMouseLeave={() => setIndicatorHover(false)}
+            />
+            <button
+              type="button"
+              data-index="1"
+              aria-label="Slide 2"
+              className={activeIndex === 1 ? 'active' : ''}
+              onClick={() => goTo(1)}
+              onKeyDown={(e) => onIndicatorKey(e, 1)}
+              onMouseEnter={() => setIndicatorHover(true)}
+              onMouseLeave={() => setIndicatorHover(false)}
+            />
+            <button
+              type="button"
+              data-index="2"
+              aria-label="Slide 3"
+              className={activeIndex === 2 ? 'active' : ''}
+              onClick={() => goTo(2)}
+              onKeyDown={(e) => onIndicatorKey(e, 2)}
+              onMouseEnter={() => setIndicatorHover(true)}
+              onMouseLeave={() => setIndicatorHover(false)}
+            />
+          </div>
+        </div>
     </header>
     <section className='Benefits'>
         <div className='ListBenefit Maxwidth'>

@@ -1,3 +1,15 @@
+/* New theme variables for consistency */
+:root{
+  --cta: hsl(15, 100%, 44%);
+  --cta-dark: hsl(15, 100%, 38%);
+  --white: #ffffff;
+  --crema: rgba(255, 238, 218, 0.44);
+  --brown: rgba(75, 41, 1, 1);
+  --shadow-lg: 0 8px 24px rgba(14,21,47,0.12);
+  --shadow-xl: 0 10px 30px rgba(14,21,47,0.14);
+  --radius: 1rem;
+}
+
 header{
     display: flex;
     flex-direction: column;
@@ -10,16 +22,16 @@ header{
     padding: 10rem 0;
 }
 .specialColor{
-    color: hsl(15, 100%, 44%);
+    color: var(--cta);
 }
 button{
-    background-color: hsl(15, 100%, 44%);
-    border-radius: 1rem;
+    background-color: var(--cta);
+    border-radius: var(--radius);
     padding: 1rem;
     font-size: 1rem;
     font-weight: bolder;
     width: 13rem;
-    color: white;
+    color: var(--white);
     /* transición y origen para el hover/scale */
     transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
     transform-origin: center;
@@ -35,20 +47,23 @@ button:active{
 }
 /* Cambia tono del color de fondo al hacer hover (un poco más oscuro) */
 button:hover{
-    background-color: hsl(15, 100%, 38%);
+    background-color: var(--cta-dark);
 }
 /* Ajustes específicos para botones con fondo transparente (.NoBG) */
 .NoBG{
     background-color: transparent;
-    border: 0.3rem solid hsl(15, 100%, 44%);
-    color: hsl(15, 100%, 44%);
+    border: 0.3rem solid var(--cta);
+    color: var(--cta);
+    border-radius: var(--radius);
     transition: transform .15s ease, background-color .15s ease, box-shadow .15s ease;
 }
 .NoBG:hover,
 .NoBG:focus-visible{
     transform: scale(1.02);
-    /* ligero fondo para aumentar contraste sin romper la paleta */
-    background-color: rgba(255, 207, 182, 0.12);
+    /* restaurado: fondo transparente, borde visible y texto en color CTA */
+    background-color: transparent;
+    color: var(--cta);
+    border-color: var(--cta);
 }
 #root > section:nth-of-type(odd){
     background-color: rgba(255, 238, 218, 0.44);
@@ -81,9 +96,64 @@ button:hover{
 .BodyHeadText{
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
     gap: 3rem;
+    height: 25rem;
 }
-
+.BodyHeadCol{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 25rem;
+    gap: 3rem;
+    position: relative;
+}
+.aspect-square{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+    color: rgba(143, 121, 95, 1);
+    font-size: 1rem;
+}
+.icon-holder{
+    display: flex;
+    color: var(--cta);
+    justify-content: space-between;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: 900;
+}
+.icon-quriositi{
+    width: 3rem;
+    height: 3rem;
+    fill: var(--brown);
+}
+/* Scoped variant for header badge to avoid colliding with footer */
+.Head .textfooter{
+    font-size: 1rem;
+    color: hsl(15, 100%, 44%);
+    font-weight: bold;
+    padding: 0.2rem;
+    background-color: rgba(227, 57, 0, 0.25);
+    width: 80%;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+}
+.Squares{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.Squares > div{
+    width: 14rem;
+    height: 14rem;
+    background-color: white;
+    border-radius: 1rem;
+}
 .Header{
     width: 100%;
     height: auto;
@@ -94,7 +164,7 @@ button:hover{
     width: 10rem;
     height: 10rem;
 }
-#heroWord{
+.heroWord{
     font-size: 48px;
     font-weight: bolder;
 }
@@ -129,10 +199,10 @@ nav a:focus-visible{
 }
 .NoBG{
     background-color: transparent;
-    border: 0.3rem solid hsl(15, 100%, 44%);
-    color: hsl(15, 100%, 44%);
+    border: 0.3rem solid var(--cta);
+    color: var(--cta);
 }
-#exampleClient{
+.exampleClient{
     width: 25rem;
     height: 25rem;
 }
@@ -148,6 +218,65 @@ nav a:focus-visible{
   position: relative;
   z-index: 1;
 }
+.hero-carousel{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5rem;
+    height: 100%;
+}
+.carousel-indicators {
+    display: flex;
+    gap: 1rem;
+    z-index: 1;
+    justify-content: flex-start; /* asegurar que estén por encima del fondo */
+    align-items: center;
+    padding: 0.25rem;
+}
+/* Indicators: use fixed size and only transform for visual scale to avoid layout reflow */
+.carousel-indicators > button{
+    background-color: transparent;
+    border: 0.18rem solid var(--cta);
+    color: var(--cta);
+    transition: transform .15s ease, background-color .15s ease, box-shadow .15s ease, opacity .12s ease;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.6rem;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transform-origin: center;
+}
+/* estado activo: visual scale solo (no cambio de width/height) */
+.carousel-indicators > button.active{
+    transform: scale(1.06);
+    background-color: var(--cta);
+    color: var(--white);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--cta);
+}
+.carousel-indicators > button:hover{
+    transform: scale(1.08);
+    background-color: var(--cta);
+    color: var(--white);
+    box-shadow: var(--shadow-xl);
+}
+
+/* Cuando el contenedor tiene la clase indicators-hover (agregada por React al hover),
+   atenuar el botón activo que NO está siendo hovered para que parezca "desactivado" */
+.carousel-indicators.indicators-hover > button.active:not(:hover) {
+    transform: scale(0.98);
+    background-color: transparent;
+    color: var(--cta);
+    box-shadow: none;
+    border-color: var(--cta);
+    opacity: 0.9;
+    transition: transform .12s ease, opacity .12s ease, background-color .12s ease;
+}
+
 /*Oscurecimeinto de fondo de heroe*/
 /*Hero*/
 /*Beneficios*/
@@ -458,7 +587,7 @@ form > button{
 }
 /* Otras formas de contacto (diseño tipo card) */
 .otrasformas{
-    background-color: rgba(255, 238, 218, 0.44); /* tono crema claro solicitado */
+    background-color: var(--crema); /* tono crema claro solicitado */
     border-radius: 3.125rem;
     padding: 2rem;
     box-shadow: 0 10px 30px rgba(14,21,47,0.06);
@@ -551,8 +680,15 @@ footer{
     font-weight: 900;
     color: white;
 }
+.textfooter{
+  color: white;
+  background-color: transparent;  
+  display: flex;
+  font-size: 1rem;
+  font-weight: lighter;
+}
 .textfooter:hover{
-    color: hsl(15, 100%, 44%); /* color CTA en hover */
+    color: var(--cta); /* color CTA en hover */
 }
 /*Footer*/
 
@@ -571,3 +707,4 @@ footer{
 @media (max-width: 480px){
     .form-select .radio-options{ flex-direction: column; align-items: flex-start; }
 }
+
