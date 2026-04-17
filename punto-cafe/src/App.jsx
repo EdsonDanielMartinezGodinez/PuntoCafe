@@ -183,7 +183,22 @@ function App() {
           </div>
         </div>
     </section>
-    <section className='generalPad'></section>
+    <section className='Map generalPad'>
+      <div className='MapPlaceholder Maxwidth' role="status" aria-live="polite">
+        <div className='map-header'>
+          <svg className='map-icon' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" fill="currentColor"/></svg>
+          <div>
+            <h2>Mapa — En desarrollo</h2>
+            <div className='status-pill'>En progreso</div>
+          </div>
+        </div>
+        <p className='map-sub'>Estamos preparando la integración del mapa. Esto es un placeholder para la demo de interfaz; el mapa funcional llegará en la siguiente iteración.</p>
+        <div className='map-actions'>
+          <button className='primary' onClick={() => alert('Te notificaremos cuando esté listo.')}>Notificarme</button>
+          <button className='secondary' disabled>Demo (próximamente)</button>
+        </div>
+      </div>
+    </section>
     <section className='About-Us generalPad'>
       <div className='Us Maxwidth'>
          <img id='Logo2' src={logo2} alt="Logo" />
