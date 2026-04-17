@@ -736,6 +736,10 @@ footer{
   animation-duration: 10000ms; /* overwritten inline via style from React */
 }
 
+.carousel-progress__fill.paused {
+  animation-play-state: paused;
+}
+
 @keyframes carousel-progress-fill {
   from { width: 0%; }
   to { width: 100%; }

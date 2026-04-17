@@ -11,6 +11,7 @@ function App() {
 
    const [activeIndex, setActiveIndex] = useState(0);
    const [indicatorsHover, setIndicatorsHover] = useState(false);
+   const [isPaused, setIsPaused] = useState(false);
    const [progress, setProgress] = useState(0); // 0..100 for progress bar
    const AUTOPLAY_MS = 10000; // 10 seconds
 
@@ -29,14 +30,8 @@ function App() {
    // helper used by indicator buttons
    const setIndicatorHover = (val) => setIndicatorsHover(val);
 
-   // Autoplay: advance slides and update progress (sequential per slide using timeout)
-   useEffect(() => {
-     const id = setTimeout(() => {
-       setActiveIndex(curr => (curr + 1) % 3);
-     }, AUTOPLAY_MS);
-
-     return () => clearTimeout(id);
-   }, [activeIndex]);
+   // Autoplay is driven by the CSS animation on the progress fill.
+   // We advance on animationend. No interval/timeout needed here.
 
   return (
     <>
@@ -54,12 +49,19 @@ function App() {
             </section>
         </section>
 
-        <div className="hero-carousel">
+        <div
+          className="hero-carousel"
+          onPointerDown={() => setIsPaused(true)}
+          onPointerUp={() => setIsPaused(false)}
+          onPointerLeave={() => setIsPaused(false)}
+          onPointerCancel={() => setIsPaused(false)}
+        >
           <div className="carousel-progress" aria-hidden="true">
              <div
                key={activeIndex}
-               className="carousel-progress__fill"
+               className={`carousel-progress__fill ${isPaused ? 'paused' : ''}`}
                style={{ animationDuration: `${AUTOPLAY_MS}ms` }}
+               onAnimationEnd={() => { if (!isPaused) setActiveIndex(curr => (curr + 1) % 3); }}
              />
            </div>
           <div className="slides">
