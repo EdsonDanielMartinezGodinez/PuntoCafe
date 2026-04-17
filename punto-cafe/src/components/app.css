@@ -708,3 +708,41 @@ footer{
     .form-select .radio-options{ flex-direction: column; align-items: flex-start; }
 }
 
+/* Carousel progress bar (bottom of the header/hero) */
+.hero-carousel {
+  position: relative; /* make the progress bar absolutely positioned relative to the carousel */
+}
+.carousel-progress {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0; /* sits at the bottom edge of the hero/header */
+  height: 12px; /* slightly thicker for visibility */
+  background: rgba(0,0,0,0.06); /* subtle track */
+  border-radius: 999px;
+  overflow: hidden;
+  z-index: 60; /* sit above background overlays */
+  width: 100vw; /* span full viewport width */
+}
+.carousel-progress__fill {
+  height: 100%;
+  width: 100%;
+  background: var(--cta, #C66B2B);
+  box-shadow: 0 0 12px rgba(198,107,43,0.22);
+  transform-origin: left center;
+  animation-name: carousel-progress-fill;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  animation-duration: 10000ms; /* overwritten inline via style from React */
+}
+
+@keyframes carousel-progress-fill {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+/* ensure the progress bar is visible above the header overlay */
+.Head .hero-carousel .carousel-progress {
+  z-index: 60;
+}
+

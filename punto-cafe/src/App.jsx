@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import logo from './assets/logo1.svg'
 import exampleClient from "./assets/lady.svg"
 import logo2 from "./assets/puntocafe.svg"
@@ -9,18 +9,34 @@ import exampleCell from "./assets/cellphone.svg"
 
 function App() {
 
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [indicatorsHover, setIndicatorsHover] = useState(false);
-  const goTo = (index) => setActiveIndex(index);
-  const onIndicatorKey = (e, index) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      setActiveIndex(index);
-    }
-  };
+   const [activeIndex, setActiveIndex] = useState(0);
+   const [indicatorsHover, setIndicatorsHover] = useState(false);
+   const [progress, setProgress] = useState(0); // 0..100 for progress bar
+   const AUTOPLAY_MS = 10000; // 10 seconds
 
-  // helper used by indicator buttons
-  const setIndicatorHover = (val) => setIndicatorsHover(val);
+   const goTo = (index) => {
+     setActiveIndex(index);
+     setProgress(0);
+   };
+   const onIndicatorKey = (e, index) => {
+     if (e.key === 'Enter' || e.key === ' ') {
+       e.preventDefault();
+       setActiveIndex(index);
+       setProgress(0);
+     }
+   };
+
+   // helper used by indicator buttons
+   const setIndicatorHover = (val) => setIndicatorsHover(val);
+
+   // Autoplay: advance slides and update progress (sequential per slide using timeout)
+   useEffect(() => {
+     const id = setTimeout(() => {
+       setActiveIndex(curr => (curr + 1) % 3);
+     }, AUTOPLAY_MS);
+
+     return () => clearTimeout(id);
+   }, [activeIndex]);
 
   return (
     <>
@@ -39,8 +55,15 @@ function App() {
         </section>
 
         <div className="hero-carousel">
+          <div className="carousel-progress" aria-hidden="true">
+             <div
+               key={activeIndex}
+               className="carousel-progress__fill"
+               style={{ animationDuration: `${AUTOPLAY_MS}ms` }}
+             />
+           </div>
           <div className="slides">
-            <div className={`slide ${activeIndex === 0 ? 'active' : ''}`} data-index="0" role="group" aria-roledescription="slide" aria-hidden={activeIndex !== 0} style={{display: activeIndex === 0 ? 'flex' : 'none'}}>
+            <div id='slide1' className={`slide ${activeIndex === 0 ? 'active' : ''}`} data-index="0" role="group" aria-roledescription="slide" aria-hidden={activeIndex !== 0} style={{display: activeIndex === 0 ? 'flex' : 'none'}}>
               <section className='BodyHead Maxwidth'>
                 <div className='BodyHeadText'>
                   <p className='heroWord'>Un <span className='specialColor'>mapa</span> al <span className='specialColor'>cafe</span> perfecto, 
@@ -54,7 +77,7 @@ function App() {
               </section>
             </div>
 
-            <div className={`slide ${activeIndex === 1 ? 'active' : ''}`} data-index="1" aria-hidden={activeIndex !== 1} style={{display: activeIndex === 1 ? 'flex' : 'none'}}>
+            <div id='slide2' className={`slide ${activeIndex === 1 ? 'active' : ''}`} data-index="1" aria-hidden={activeIndex !== 1} style={{display: activeIndex === 1 ? 'flex' : 'none'}}>
               <section className='BodyHeadCol Maxwidth'>
                 <p className='heroWord'>El <span className='specialColor'>cafe</span> es mucho mas que una <span className='specialColor'>bebida</span></p>
                 <div className='Squares'>
@@ -93,10 +116,10 @@ function App() {
                 </div>
               </section>
             </div>
-            <div className={`slide ${activeIndex === 2 ? 'active' : ''}`} data-index="2" aria-hidden={activeIndex !== 2} style={{display: activeIndex === 2 ? 'flex' : 'none'}}>
+            <div id='slide3' className={`slide ${activeIndex === 2 ? 'active' : ''}`} data-index="2" aria-hidden={activeIndex !== 2} style={{display: activeIndex === 2 ? 'flex' : 'none'}}>
               <div className='BodyHead Maxwidth'>
                 <div className='BodyHeadText'>
-                  <p className='heroWord'>LLeva punto<span className='specialColor'>cafe</span> en tu <span className='specialColor'>bolsillo</span></p>
+                  <p className='heroWord'>LLeva punto<span className='specialColor'>cafe</span> in tu <span className='specialColor'>bolsillo</span></p>
                   <img src={ctaHolder} alt="Buton mockup" id='button-mockup'/>
                 </div>
                 <div>
