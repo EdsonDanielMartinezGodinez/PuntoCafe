@@ -815,3 +815,178 @@ footer{
 /* center placeholder inside .Map (which uses generalPad) */
 .Map{ display: flex; justify-content: center; align-items: center; }
 
+/* Safe, non-destructive reveal animations
+   - Targets explicit components only (no global * or .Maxwidth > *)
+   - Excludes .MapPlaceholder and footer entirely
+   - Respects user prefers-reduced-motion
+*/
+@keyframes subtle-reveal { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Apply to header / hero */
+.Head .InerHead,
+.hero-carousel,
+.hero-carousel .slides,
+.slide .BodyHeadText,
+.slide .BodyHeadCol {
+  opacity: 0;
+  transform: translateY(10px);
+  will-change: opacity, transform;
+  animation-name: subtle-reveal;
+  animation-duration: 560ms;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(.2,.8,.2,1);
+}
+
+/* Nav and hero buttons (small stagger) */
+nav a { animation-delay: 120ms; }
+nav a,
+.Buttons > button {
+  opacity: 0;
+  transform: translateY(6px);
+  animation-name: subtle-reveal;
+  animation-duration: 420ms;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(.2,.8,.2,1);
+}
+
+/* Benefits list (explicit) */
+.ListBenefit .Benefit {
+  opacity: 0;
+  transform: translateY(12px);
+  animation-name: subtle-reveal;
+  animation-duration: 520ms;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(.2,.8,.2,1);
+}
+.ListBenefit .Benefit:nth-child(1){ animation-delay: 140ms; }
+.ListBenefit .Benefit:nth-child(2){ animation-delay: 220ms; }
+.ListBenefit .Benefit:nth-child(3){ animation-delay: 300ms; }
+
+/* About / Cards */
+.About-Us,
+.Cards > *,
+.LargeCard,
+.Card {
+  opacity: 0;
+  transform: translateY(12px);
+  animation-name: subtle-reveal;
+  animation-duration: 520ms;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(.2,.8,.2,1);
+}
+.Cards > *:nth-child(1){ animation-delay: 140ms; }
+.Cards > *:nth-child(2){ animation-delay: 220ms; }
+.Cards > *:nth-child(3){ animation-delay: 300ms; }
+
+/* CTA block */
+.ctaHolder {
+  opacity: 0;
+  transform: translateY(12px);
+  animation-name: subtle-reveal;
+  animation-duration: 520ms;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(.2,.8,.2,1);
+  animation-delay: 160ms;
+}
+
+/* Otras formas de contacto and its rows (explicit, avoid touching .MapPlaceholder) */
+.otrasformas,
+.otrasformas .contact-row {
+  opacity: 0;
+  transform: translateY(12px);
+  animation-name: subtle-reveal;
+  animation-duration: 520ms;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(.2,.8,.2,1);
+}
+.otrasformas .contact-row:nth-child(1){ animation-delay: 140ms; }
+.otrasformas .contact-row:nth-child(2){ animation-delay: 200ms; }
+.otrasformas .contact-row:nth-child(3){ animation-delay: 260ms; }
+.otrasformas .contact-row:nth-child(4){ animation-delay: 320ms; }
+
+/* Contact form */
+.contact-Us,
+form,
+.forms-contact > * {
+  opacity: 0;
+  transform: translateY(12px);
+  animation-name: subtle-reveal;
+  animation-duration: 520ms;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(.2,.8,.2,1);
+}
+
+/* Carousel indicators (buttons) */
+.carousel-indicators > button {
+  opacity: 0;
+  transform: translateY(6px);
+  animation-name: subtle-reveal;
+  animation-duration: 420ms;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(.2,.8,.2,1);
+}
+.carousel-indicators > button:nth-child(1){ animation-delay: 120ms; }
+.carousel-indicators > button:nth-child(2){ animation-delay: 180ms; }
+.carousel-indicators > button:nth-child(3){ animation-delay: 240ms; }
+
+/* IMPORTANT: explicitly exclude MapPlaceholder and footer from any animation changes */
+.MapPlaceholder,
+.MapPlaceholder *,
+footer,
+footer * {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+/* Respect reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .Head .InerHead,
+  .hero-carousel,
+  nav a,
+  .Buttons > button,
+  .ListBenefit .Benefit,
+  .About-Us,
+  .Cards > *,
+  .ctaHolder,
+  .otrasformas,
+  .contact-Us,
+  form,
+  .carousel-indicators > button {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* HERO: restore the two CTA buttons in the first slide only — minimal, non-destructive override
+   - make them visible immediately, cancel entrance animation, but allow transform on hover (no !important on transform)
+   - scoped to .Head so other .Buttons elsewhere keep reveal behavior
+*/
+.Head .Buttons > button {
+  opacity: 1 !important;
+  transform: translateY(0);
+  animation: none !important;
+  transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+.Head .Buttons > button:hover,
+.Head .Buttons > button:focus-visible {
+  transform: scale(1.04);
+  box-shadow: 0 8px 24px rgba(14,21,47,0.12);
+}
+
+/* Only apply filled background on hover for buttons that are NOT .NoBG */
+.Head .Buttons > button:not(.NoBG):hover,
+.Head .Buttons > button:not(.NoBG):focus-visible {
+  background-color: var(--cta-dark);
+}
+
+/* Keep transparent variant visually consistent on hover without adding background */
+.Head .Buttons > button.NoBG:hover,
+.Head .Buttons > button.NoBG:focus-visible {
+  background-color: transparent;
+  color: var(--cta);
+  border-color: var(--cta);
+  box-shadow: 0 6px 18px rgba(14,21,47,0.06);
+}
+

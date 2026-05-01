@@ -121,7 +121,7 @@ function App() {
             <div id='slide3' className={`slide ${activeIndex === 2 ? 'active' : ''}`} data-index="2" aria-hidden={activeIndex !== 2} style={{display: activeIndex === 2 ? 'flex' : 'none'}}>
               <div className='BodyHead Maxwidth'>
                 <div className='BodyHeadText'>
-                  <p className='heroWord'>LLeva punto<span className='specialColor'>cafe</span> in tu <span className='specialColor'>bolsillo</span></p>
+                  <p className='heroWord'>LLeva punto<span className='specialColor'>cafe</span> en tu <span className='specialColor'>bolsillo</span></p>
                   <img src={ctaHolder} alt="Buton mockup" id='button-mockup'/>
                 </div>
                 <div>
