@@ -33,6 +33,27 @@ function App() {
    // Autoplay is driven by the CSS animation on the progress fill.
    // We advance on animationend. No interval/timeout needed here.
 
+  useEffect(() => {
+    // Respect user's reduced motion preference
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const selectors = ['.ListBenefit', '.Cards', '.ctaHolder', '.otrasformas', '.contact-Us',".SectionsTitle",".Us"];
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          obs.unobserve(entry.target); // one-time reveal
+        }
+      });
+    }, { threshold: 0.12 });
+
+    selectors.forEach(sel => {
+      document.querySelectorAll(sel).forEach(el => observer.observe(el));
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
     <header className="Head">
@@ -164,7 +185,7 @@ function App() {
           </div>
         </div>
     </header>
-    <section className='Benefits'>
+    <section className='Benefits reveal'>
         <div className='ListBenefit Maxwidth'>
           <div className='Benefit'>
             <p className='Tittle-benefit'>Encuentra fácil</p>
@@ -199,7 +220,7 @@ function App() {
         </div>
       </div>
     </section>
-    <section className='About-Us generalPad'>
+    <section className='About-Us generalPad reveal'>
       <div className='Us Maxwidth'>
          <img id='Logo2' src={logo2} alt="Logo" />
          <p id='textSlogan'>Somos un grupo impulsado para ayudar a las personas a encontrar su cafeteria ideal
@@ -237,7 +258,7 @@ function App() {
         <button>Contactanos</button>
       </div>
     </section>
-    <section className='contactanos generalPad'>
+    <section className='contactanos generalPad reveal'>
       <div className='contact-Us Maxwidth'>
         <div className='SectionsTitle'>
           <p>¿Tienes alguna pregunta? ¡Contactanos!</p>
