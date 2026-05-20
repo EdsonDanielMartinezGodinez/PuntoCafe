@@ -1,0 +1,497 @@
+/* ═══════════════════════════════════════════════════════
+   MAP SECTION — PuntoCafe
+   ═══════════════════════════════════════════════════════ */
+
+.ms-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* ── Título ──────────────────────────────────────────── */
+.ms-titulo {
+  text-align: left;
+}
+.ms-titulo h2 {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--brown);
+  margin: 0;
+}
+.ms-underline {
+  width: 5rem;
+  height: 0.22rem;
+  background: var(--cta);
+  border-radius: 99px;
+  margin-top: 0.4rem;
+}
+
+/* ── Barra de búsqueda flotante sobre el mapa ────────── */
+.ms-search-bar {
+  position: absolute;
+  top: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #fff;
+  border-radius: 2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  padding: 0.35rem 0.35rem 0.35rem 0.9rem;
+  gap: 0.5rem;
+  width: auto;
+  min-width: 22rem;
+  max-width: calc(100% - 2rem);
+  border: 1px solid rgba(0,0,0,0.07);
+}
+.ms-search-icon {
+  width: 1.4rem;
+  height: 1.4rem;
+  fill: rgba(0,0,0,0.35);
+  flex-shrink: 0;
+}
+.ms-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+  color: rgba(0,0,0,0.7);
+  background: transparent;
+}
+.ms-search-input::placeholder {
+  color: rgba(0,0,0,0.35);
+}
+.ms-search-btn {
+  width: auto !important;
+  padding: 0.45rem 1.2rem !important;
+  border-radius: 2rem !important;
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  background-color: var(--cta) !important;
+  color: #fff !important;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Cuerpo: mapa + sidebar ──────────────────────────── */
+.ms-body {
+  display: grid;
+  grid-template-columns: 1fr 22rem;
+  gap: 1.5rem;
+  width: 100%;
+  align-items: stretch;
+}
+
+/* ── Mapa ────────────────────────────────────────────── */
+.ms-map-container {
+  position: relative;
+  border-radius: 1.2rem;
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  min-height: 480px;
+}
+.ms-leaflet-map {
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  border-radius: 1.2rem;
+}
+
+/* Botones flotantes sobre el mapa */
+.ms-map-btns {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.75rem;
+  z-index: 1000;
+}
+.ms-btn-locate {
+  width: auto !important;
+  padding: 0.6rem 1.2rem !important;
+  border-radius: 0.75rem !important;
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  background-color: var(--cta) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 14px rgba(14,21,47,0.18) !important;
+}
+.ms-btn-secondary {
+  width: auto !important;
+  padding: 0.6rem 1.2rem !important;
+  border-radius: 0.75rem !important;
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  background-color: #fff !important;
+  color: var(--brown) !important;
+  border: 1.5px solid rgba(0,0,0,0.12) !important;
+  box-shadow: 0 4px 14px rgba(14,21,47,0.10) !important;
+}
+.ms-btn-secondary:hover {
+  background-color: #f9f5f0 !important;
+}
+
+/* ── Sidebar de resultados ───────────────────────────── */
+.ms-sidebar {
+  background: #fff;
+  border-radius: 1.2rem;
+  box-shadow: var(--shadow-xl);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.ms-sidebar-header {
+  padding: 1.2rem 1.25rem 0.75rem;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.ms-sidebar-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--brown);
+  margin: 0;
+}
+.ms-sidebar-count {
+  font-size: 0.78rem;
+  color: var(--cta);
+  font-weight: 600;
+  margin: 0.15rem 0 0;
+}
+.ms-lista {
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.ms-empty {
+  padding: 2rem;
+  color: rgba(0,0,0,0.5);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* ── Card de cafetería ───────────────────────────────── */
+.ms-card {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.ms-card:hover {
+  background-color: rgba(255, 238, 218, 0.5);
+}
+.ms-card--active {
+  background-color: rgba(255, 238, 218, 0.7);
+  border-left: 3px solid var(--cta);
+}
+.ms-card-img {
+  width: 4.5rem;
+  height: 4.5rem;
+  object-fit: cover;
+  border-radius: 0.65rem;
+  flex-shrink: 0;
+}
+.ms-card-info {
+  flex: 1;
+  min-width: 0;
+}
+.ms-card-nombre {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--brown);
+  margin: 0 0 0.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ms-card-desc {
+  font-size: 0.78rem;
+  color: rgba(0,0,0,0.55);
+  margin: 0 0 0.35rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ms-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.ms-stars {
+  color: var(--cta);
+  font-size: 0.8rem;
+  letter-spacing: -1px;
+}
+.ms-card-rating {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--brown);
+}
+.ms-card-horario {
+  font-size: 0.72rem;
+  color: rgba(0,0,0,0.45);
+}
+.ms-btn-mas {
+  width: auto !important;
+  padding: 0.35rem 0.85rem !important;
+  border-radius: 0.5rem !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  background-color: var(--cta) !important;
+  color: #fff !important;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+/* ── Modal de ubicación ──────────────────────────────── */
+.ms-modal-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.ms-modal {
+  background: #fff;
+  border-radius: 1.3rem;
+  padding: 1.8rem 2rem;
+  max-width: 22rem;
+  width: calc(100% - 3rem);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  pointer-events: all;
+  animation: ms-modal-in 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes ms-modal-in {
+  from { opacity: 0; transform: scale(0.93) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.ms-modal-titulo {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--brown);
+  margin: 0 0 0.6rem;
+}
+.ms-modal-texto {
+  font-size: 0.88rem;
+  color: rgba(0,0,0,0.6);
+  line-height: 1.55;
+  margin: 0 0 1.3rem;
+}
+.ms-modal-btns {
+  display: flex;
+  gap: 0.75rem;
+}
+.ms-modal-btn-primary {
+  flex: 1;
+  padding: 0.65rem 0 !important;
+  border-radius: 0.65rem !important;
+  font-size: 0.92rem !important;
+  font-weight: 700 !important;
+  background-color: var(--cta) !important;
+  color: #fff !important;
+  width: auto !important;
+}
+.ms-modal-btn-secondary {
+  flex: 1;
+  padding: 0.65rem 0 !important;
+  border-radius: 0.65rem !important;
+  font-size: 0.92rem !important;
+  font-weight: 700 !important;
+  background-color: #fff !important;
+  color: var(--brown) !important;
+  border: 2px solid rgba(0,0,0,0.15) !important;
+  width: auto !important;
+}
+.ms-modal-btn-secondary:hover {
+  border-color: var(--cta) !important;
+  color: var(--cta) !important;
+}
+.ms-popup strong {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--brown);
+  margin-bottom: 0.2rem;
+}
+.ms-popup p {
+  font-size: 0.8rem;
+  color: rgba(0,0,0,0.6);
+  margin: 0 0 0.25rem;
+}
+.ms-popup span {
+  font-size: 0.78rem;
+  color: var(--cta);
+  font-weight: 600;
+}
+
+/* ── Sección Mejor Valorados ─────────────────────────── */
+.ms-mejor {
+  width: 100%;
+  padding-top: 1.5rem;
+}
+.ms-mejor-title {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--brown);
+  margin: 0;
+}
+
+/* ── Carrusel ────────────────────────────────────────── */
+.ms-carrusel {
+  overflow: hidden;
+  margin-top: 1.5rem;
+}
+.ms-carrusel-track {
+  display: flex;
+  gap: 1.2rem;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Tarjeta grande con foto de fondo ────────────────── */
+.ms-mv-card {
+  position: relative;
+  min-width: calc(50% - 0.6rem);
+  height: 22rem;
+  border-radius: 1.4rem;
+  overflow: hidden;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-xl);
+  transition: transform 0.2s ease;
+}
+.ms-mv-card:hover {
+  transform: translateY(-4px);
+}
+.ms-mv-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.ms-mv-card:hover .ms-mv-bg {
+  transform: scale(1.04);
+}
+.ms-mv-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.05) 30%,
+    rgba(30,10,5,0.82) 100%
+  );
+}
+.ms-mv-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.25rem 1.4rem 1.3rem;
+  color: #fff;
+}
+.ms-mv-nombre {
+  font-size: 1.25rem;
+  font-weight: 900;
+  margin: 0 0 0.1rem;
+  line-height: 1.2;
+}
+.ms-mv-ciudad {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--cta);
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.ms-mv-desc {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.78);
+  margin: 0 0 0.9rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.45;
+}
+.ms-mv-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ms-mv-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.ms-mv-rating .ms-stars {
+  font-size: 0.9rem;
+  color: var(--cta);
+}
+.ms-mv-rating span {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fff;
+}
+.ms-mv-btn {
+  width: auto !important;
+  padding: 0.4rem 1.1rem !important;
+  border-radius: 0.55rem !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  background-color: var(--cta) !important;
+  color: #fff !important;
+}
+
+/* ── Puntos de paginación ────────────────────────────── */
+.ms-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+.ms-dot {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 99px;
+  background: rgba(0,0,0,0.18);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s ease, width 0.25s ease;
+}
+.ms-dot--active {
+  background: var(--cta);
+  width: 1.8rem;
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 900px) {
+  .ms-body {
+    grid-template-columns: 1fr;
+  }
+  .ms-sidebar {
+    max-height: 26rem;
+  }
+  .ms-mv-card {
+    min-width: calc(85% - 0.6rem);
+    height: 20rem;
+  }
+}
+@media (max-width: 560px) {
+  .ms-mv-card {
+    min-width: 100%;
+    height: 18rem;
+  }
+  .ms-titulo h2 {
+    font-size: 1.7rem;
+  }
+}
