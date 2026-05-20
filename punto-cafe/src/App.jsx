@@ -71,6 +71,15 @@ function App() {
           </section>
         </section>
 
+        <div className="carousel-progress" aria-hidden="true">
+          <div
+            key={activeIndex}
+            className={`carousel-progress__fill ${isPaused ? 'paused' : ''}`}
+            style={{ animationDuration: `${AUTOPLAY_MS}ms` }}
+            onAnimationEnd={() => { if (!isPaused) setActiveIndex(curr => (curr + 1) % 3); }}
+          />
+        </div>
+
         <div
           className="hero-carousel"
           onPointerDown={() => setIsPaused(true)}
@@ -78,14 +87,6 @@ function App() {
           onPointerLeave={() => setIsPaused(false)}
           onPointerCancel={() => setIsPaused(false)}
         >
-          <div className="carousel-progress" aria-hidden="true">
-            <div
-              key={activeIndex}
-              className={`carousel-progress__fill ${isPaused ? 'paused' : ''}`}
-              style={{ animationDuration: `${AUTOPLAY_MS}ms` }}
-              onAnimationEnd={() => { if (!isPaused) setActiveIndex(curr => (curr + 1) % 3); }}
-            />
-          </div>
           <div className="slides">
             <div id='slide1' className={`slide ${activeIndex === 0 ? 'active' : ''}`} data-index="0" role="group" aria-roledescription="slide" aria-hidden={activeIndex !== 0} style={{ display: activeIndex === 0 ? 'flex' : 'none' }}>
               <section className='BodyHead Maxwidth'>
