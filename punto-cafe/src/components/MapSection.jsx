@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react'
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
+import { useState, useRef, useEffect } from 'react'
+import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMap, useMapEvents } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import './MapSection.css'
@@ -98,6 +98,17 @@ function FlyTo({ center }) {
   return null
 }
 
+// Tocar una zona vacía del mapa cierra el panel de resultados
+function MapClick({ onClick }) {
+  useMapEvents({ click: onClick })
+  return null
+}
+
+// En celular vertical el panel es una hoja inferior; en horizontal y escritorio es lateral
+const usaHojaInferior = () =>
+  window.matchMedia('(max-width: 900px)').matches &&
+  !window.matchMedia('(orientation: landscape) and (max-height: 500px)').matches
+
 function Stars({ rating }) {
   return <span className="ms-stars">{'★'.repeat(Math.floor(rating))}{'☆'.repeat(5 - Math.floor(rating))}</span>
 }
@@ -113,12 +124,16 @@ export default function MapSection() {
   const [slideActivo, setSlideActivo]       = useState(0)
   const [cafeModal, setCafeModal]           = useState(null)
   const [tabActivo, setTabActivo]           = useState('menu')
+  const [panelAbierto, setPanelAbierto]     = useState(false)
   const markersRef                          = useRef({})
+  const cardsRef                            = useRef({})
+  const listaRef                            = useRef(null)
 
   const MEJORES = [...CAFETERIAS_DEMO].sort((a, b) => b.rating - a.rating)
 
   const buscar = (e) => {
     e.preventDefault()
+    setPanelAbierto(true)
     const q = query.trim().toLowerCase()
     if (!q) { setResultados(CAFETERIAS_DEMO); return }
     setResultados(CAFETERIAS_DEMO.filter(c => c.nombre.toLowerCase().includes(q) || c.descripcion.toLowerCase().includes(q)))
@@ -148,8 +163,28 @@ export default function MapSection() {
   const irACafeteria = (cafe) => {
     setSeleccionado(cafe.id)
     setCenter([cafe.lat, cafe.lng])
+    // En móvil el panel tapa medio mapa: se cierra para que se vea la cafetería
+    if (usaHojaInferior()) setPanelAbierto(false)
     setTimeout(() => { const m = markersRef.current[cafe.id]; if (m) m.openPopup() }, 1300)
   }
+
+  const abrirDesdeMarcador = (cafe) => {
+    setSeleccionado(cafe.id)
+    setPanelAbierto(true)
+  }
+
+  // Márgenes para que Leaflet desplace el mapa y el popup no quede detrás del panel ni de la búsqueda
+  const popupPadding = usaHojaInferior()
+    ? { autoPanPaddingTopLeft: [16, 80], autoPanPaddingBottomRight: [16, Math.round(window.innerHeight * 0.72 * 0.55) + 50] }
+    : { autoPanPaddingTopLeft: [Math.min(370, window.innerWidth * 0.4), 80], autoPanPaddingBottomRight: [30, 30] }
+
+  // Al seleccionar una cafetería (p. ej. desde un marcador), llevar su tarjeta a la vista dentro del panel
+  useEffect(() => {
+    const card = cardsRef.current[seleccionado]
+    if (panelAbierto && card && listaRef.current) {
+      listaRef.current.scrollTo({ top: card.offsetTop - 8, behavior: 'smooth' })
+    }
+  }, [seleccionado, panelAbierto])
 
   const abrirModal = (cafe, e) => {
     e.stopPropagation()
@@ -175,7 +210,7 @@ export default function MapSection() {
         <div className="ms-underline-brown" />
       </div>
 
-      {/* Cuerpo: mapa + sidebar */}
+      {/* Cuerpo: mapa con el panel de resultados integrado */}
       <div className="ms-body Maxwidth">
 
         {/* Mapa */}
@@ -186,17 +221,19 @@ export default function MapSection() {
             <svg className="ms-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/>
             </svg>
-            <input type="text" value={query} onChange={e => setQuery(e.target.value)} placeholder="Busca tu cafetería en tu ciudad" className="ms-search-input" />
+            <input type="text" value={query} onChange={e => setQuery(e.target.value)} onFocus={() => setPanelAbierto(true)} placeholder="Busca tu cafetería en tu ciudad" className="ms-search-input" />
             <button type="submit" className="ms-search-btn">Buscar</button>
           </form>
 
           {/* Leaflet */}
-          <MapContainer center={center} zoom={15} className="ms-leaflet-map" zoomControl={true} scrollWheelZoom={true}>
+          <MapContainer center={center} zoom={15} className="ms-leaflet-map" zoomControl={false} scrollWheelZoom={true}>
+            <ZoomControl position="bottomright" />
+            <MapClick onClick={() => setPanelAbierto(false)} />
             <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             <FlyTo center={center} />
             {resultados.map(cafe => (
-              <Marker key={cafe.id} position={[cafe.lat, cafe.lng]} icon={cafeIcon} ref={el => { if (el) markersRef.current[cafe.id] = el }}>
-                <Popup>
+              <Marker key={cafe.id} position={[cafe.lat, cafe.lng]} icon={cafeIcon} ref={el => { if (el) markersRef.current[cafe.id] = el }} eventHandlers={{ click: () => abrirDesdeMarcador(cafe) }}>
+                <Popup {...popupPadding}>
                   <div className="ms-popup">
                     <strong>{cafe.nombre}</strong>
                     <p>{cafe.descripcion}</p>
@@ -228,36 +265,45 @@ export default function MapSection() {
             </div>
           )}
 
+          {/* Panel de resultados: aparece al interactuar con el mapa */}
+          {!panelAbierto && (
+            <button type="button" className="ms-lista-toggle" onClick={() => setPanelAbierto(true)}>
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z" /></svg>
+              Ver {resultados.length} locales
+            </button>
+          )}
+          <aside className={`ms-sidebar ${panelAbierto ? 'ms-sidebar--open' : ''}`} aria-hidden={!panelAbierto}>
+            <div className="ms-sidebar-header">
+              <div>
+                <p className="ms-sidebar-title">Locales Cerca</p>
+                <p className="ms-sidebar-count">{resultados.length} Resultados Obtenidos</p>
+              </div>
+              <button type="button" className="ms-sidebar-close" onClick={() => setPanelAbierto(false)} aria-label="Cerrar resultados">✕</button>
+            </div>
+            <div className="ms-lista" ref={listaRef}>
+              {resultados.length === 0 ? (
+                <p className="ms-empty">No se encontraron cafeterías con ese nombre.</p>
+              ) : (
+                resultados.map(cafe => (
+                  <div key={cafe.id} ref={el => { if (el) cardsRef.current[cafe.id] = el }} className={`ms-card ${seleccionado === cafe.id ? 'ms-card--active' : ''}`} onClick={() => irACafeteria(cafe)} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && irACafeteria(cafe)}>
+                    <img src={cafe.foto} alt={cafe.nombre} className="ms-card-img" />
+                    <div className="ms-card-info">
+                      <p className="ms-card-nombre">{cafe.nombre}</p>
+                      <p className="ms-card-desc">{cafe.descripcion}</p>
+                      <div className="ms-card-meta">
+                        <Stars rating={cafe.rating} />
+                        <span className="ms-card-rating">{cafe.rating}</span>
+                        <span className="ms-card-horario">{cafe.horario}</span>
+                      </div>
+                    </div>
+                    <button className="ms-btn-mas" onClick={e => abrirModal(cafe, e)}>Más</button>
+                  </div>
+                ))
+              )}
+            </div>
+          </aside>
         </div>{/* fin ms-map-container */}
 
-        {/* Sidebar */}
-        <aside className="ms-sidebar">
-          <div className="ms-sidebar-header">
-            <p className="ms-sidebar-title">Locales Cerca</p>
-            <p className="ms-sidebar-count">{resultados.length} Resultados Obtenidos</p>
-          </div>
-          <div className="ms-lista">
-            {resultados.length === 0 ? (
-              <p className="ms-empty">No se encontraron cafeterías con ese nombre.</p>
-            ) : (
-              resultados.map(cafe => (
-                <div key={cafe.id} className={`ms-card ${seleccionado === cafe.id ? 'ms-card--active' : ''}`} onClick={() => irACafeteria(cafe)} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && irACafeteria(cafe)}>
-                  <img src={cafe.foto} alt={cafe.nombre} className="ms-card-img" />
-                  <div className="ms-card-info">
-                    <p className="ms-card-nombre">{cafe.nombre}</p>
-                    <p className="ms-card-desc">{cafe.descripcion}</p>
-                    <div className="ms-card-meta">
-                      <Stars rating={cafe.rating} />
-                      <span className="ms-card-rating">{cafe.rating}</span>
-                      <span className="ms-card-horario">{cafe.horario}</span>
-                    </div>
-                  </div>
-                  <button className="ms-btn-mas" onClick={e => abrirModal(cafe, e)}>Más</button>
-                </div>
-              ))
-            )}
-          </div>
-        </aside>
 
       </div>{/* fin ms-body */}
 
@@ -266,7 +312,7 @@ export default function MapSection() {
         <p className="ms-mejor-title">Mejor <span className="specialColor">valorados</span></p>
         <div className="ms-underline-brown" />
         <div className="ms-carrusel">
-          <div className="ms-carrusel-track" style={{ transform: `translateX(calc(-${slideActivo} * (100% / 2 + 0.6rem)))` }}>
+          <div className="ms-carrusel-track" style={{ transform: `translateX(calc(-${slideActivo} * (var(--ms-card-w) + var(--ms-gap))))` }}>
             {MEJORES.map(cafe => (
               <div key={cafe.id} className="ms-mv-card" onClick={() => irACafeteria(cafe)}>
                 <img src={cafe.foto} alt={cafe.nombre} className="ms-mv-bg" />

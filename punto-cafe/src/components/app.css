@@ -3,7 +3,7 @@
   --cta: hsl(15, 100%, 44%);
   --cta-dark: hsl(15, 100%, 38%);
   --white: #ffffff;
-  --crema: rgba(255, 238, 218, 0.44);
+  --crema: #faead9;
   --brown: rgba(75, 41, 1, 1);
   --shadow-lg: 0 8px 24px rgba(14,21,47,0.12);
   --shadow-xl: 0 10px 30px rgba(14,21,47,0.14);
@@ -15,11 +15,15 @@ header{
     flex-direction: column;
     align-items: center;
 }
-.Maxwidth{
-    width: 960px;
+.Maxwidth {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto; /* Para centrarlo */
+    padding: 0 1.5rem; /* Para que en celular no pegue a los bordes */
+    box-sizing: border-box;
 }
 .generalPad{
-    padding: 10rem 0;
+    padding: clamp(4rem, 12vw, 10rem) 0;
 }
 .specialColor{
     color: var(--cta);
@@ -27,7 +31,7 @@ header{
 button{
     background-color: var(--cta);
     border-radius: var(--radius);
-    padding: 1rem;
+    padding: 0.75rem 1rem;
     font-size: 1rem;
     font-weight: bolder;
     width: 13rem;
@@ -69,17 +73,43 @@ button:hover{
     background-image: url(../assets/placeholderBackgorund.jpg);
     background-size: cover;
     background-position: center;
-    height: 100vh;
+    min-height: 100vh;
+    /* svh = altura visible con la barra del navegador; --vh es el respaldo de App.jsx si no hay svh */
+    min-height: calc(var(--vh, 1svh) * 100);
     display: flex;
     color: white;
     position: relative;
+    overflow: hidden;
 }
 .InerHead{
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    padding-top: 1rem;
+}
+.hamburger-btn {
+    display: none; /* Oculto en escritorio */
+    background: transparent;
+    border: none;
+    color: var(--white);
+    padding: 0.5rem;
+    width: 3rem;
+    height: 3rem;
+    box-shadow: none;
+    cursor: pointer;
+    z-index: 100;
+}
+.hamburger-btn:hover {
+    background: transparent;
+    transform: scale(1.1);
+    box-shadow: none;
+}
+.hamburger-btn svg {
+    width: 100%;
+    height: 100%;
 }
 .BodyHead{
     display: flex;
@@ -93,8 +123,9 @@ button:hover{
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    gap: 3rem;
+    gap: 3.5rem;
     height: 25rem;
+    height: auto;
 }
 .BodyHeadCol{
     display: flex;
@@ -142,11 +173,14 @@ button:hover{
     flex-wrap: wrap;
     gap: 1rem;
 }
-.Squares > div{
-    width: 14rem;
+.Squares > div {
+    width: 100%;
+    max-width: 14rem; /* Límite máximo para que no se hagan gigantes */
+    flex: 1 1 12rem; /* Permite que se encojan y se estiren según el espacio disponible */
     height: 14rem;
     background-color: white;
     border-radius: 1rem;
+    box-sizing: border-box; /* Fundamental: evita que el padding infle el tamaño total de la caja */
 }
 .Header{
     width: 100%;
@@ -159,8 +193,9 @@ button:hover{
     height: 10rem;
 }
 .heroWord{
-    font-size: 48px;
+    font-size: clamp(1.8rem, 5vw, 3rem);
     font-weight: bolder;
+    line-height: 1.2;
 }
 nav{
     display: flex;
@@ -190,6 +225,9 @@ nav a:focus-visible{
     display: flex;
     gap: 3rem;
     font-weight: bolder;
+    width: max-content;
+    min-width: 12rem;
+    white-space: nowrap;
 }
 .NoBG{
     background-color: transparent;
@@ -210,6 +248,9 @@ nav a:focus-visible{
 .Head > * , .Head .InerHead, .Head .BodyHead {
   position: relative;
   z-index: 1;
+}
+.Head .Header {
+  z-index: 10; /* el menú desplegable queda sobre el carrusel */
 }
 .carousel-indicators {
   display: flex;
@@ -257,6 +298,25 @@ nav a:focus-visible{
     border-color: var(--cta);
     opacity: 0.9;
     transition: transform .12s ease, opacity .12s ease, background-color .12s ease;
+}
+
+.carousel-progress__fill {
+  height: 100%;
+  background: var(--cta);
+  box-shadow: 0 0 12px rgba(198,107,43,0.22);
+  transform-origin: left center;
+  
+  width: 0%;
+  animation: fill-progress 10s linear forwards; 
+}
+
+/* Y esto arregla tu pausa manual muerta */
+.carousel-progress__fill.paused {
+  animation-play-state: paused !important;
+}
+
+@keyframes fill-progress {
+  to { width: 100%; }
 }
  
 /*Beneficios*/
@@ -433,225 +493,337 @@ nav a:focus-visible{
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 2.75rem;
+    font-size: clamp(1.8rem, 4.5vw, 2.75rem);
     font-weight: bolder;
     text-align: center;
     color: hsl(15, 100%, 44%);
     gap: 0.5rem;
 }
 .underline{
-    width: 30%;
-    border: 0.2rem solid rgba(75, 41, 1, 1);
+    width: 4rem;
+    height: 0.25rem;
+    border-radius: 99px;
+    background-color: var(--brown);
+}
+.ct-sub{
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.6);
+    max-width: 32rem;
+    margin-top: 0.5rem;
 }
 .contact-Us{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5rem;
+    gap: 3rem;
 }
-.forms-contact{
-    display: flex;
-    gap: 2.5rem;
-    align-items: center;
-}
-form{
-    display: flex;
-    flex-direction: column;
+.ct-grid{
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
     gap: 2rem;
     width: 100%;
-    background-color: rgba(75, 41, 1, 1);
-    padding: 2rem;
-    color: white;
-    border-radius: 3.125rem;
-    box-shadow: 0 10px 30px rgba(14,21,47,0.06);
+    align-items: stretch;
 }
-form > button{
-    align-self: center;
-    font-size: 2.25rem;
-}
-.factoria{
-    font-size: 2.25rem;
-    font-weight: bolder;
-    display: flex;
-    justify-content: center;
-}
-.form-group{
+
+/* Formulario */
+.ct-form{
     display: flex;
     flex-direction: column;
+    gap: 1.25rem;
+    padding: 2.5rem;
+    background-color: var(--white);
+    color: var(--brown);
+    border-radius: 1.75rem;
+    box-shadow: var(--shadow-xl);
+}
+.ct-form-title{
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+.ct-form-sub{
+    font-size: 0.85rem;
+    color: rgba(0, 0, 0, 0.5);
+    margin-top: 0.25rem;
+}
+.ct-row{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+.ct-field{
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    min-width: 0;
+}
+.ct-field > label,
+.ct-label{
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+.ct-field > input,
+.ct-field > textarea{
+    width: 100%;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    color: #222;
+    background-color: #fdf8f3;
+    border: 1.5px solid rgba(75, 41, 1, 0.15);
+    border-radius: 0.75rem;
+    transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+.ct-field > textarea{
+    resize: vertical;
+    min-height: 8rem;
+}
+.ct-field > input::placeholder,
+.ct-field > textarea::placeholder{
+    color: rgba(0, 0, 0, 0.35);
+}
+.ct-field > input:focus,
+.ct-field > textarea:focus{
+    outline: none;
+    background-color: var(--white);
+    border-color: var(--cta);
+    box-shadow: 0 0 0 4px rgba(227, 57, 0, 0.12);
+}
+
+/* "¿Tienes una cafetería?" como píldoras */
+.ct-pills{
+    display: flex;
+    flex-wrap: wrap;
     gap: 0.5rem;
 }
-.form-group > input, .form-group > textarea{
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    border: none;
-    font-size: 1rem;
-    background-color: white;
-    color: black;
-}
-.form-select{
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    border: none;
-    font-size: 1rem;
-}
-.form-select .radio-options{
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-.form-select input[type="radio"]{
+.ct-pills input[type="radio"]{
     position: absolute;
     opacity: 0;
     width: 1px;
     height: 1px;
     pointer-events: none;
 }
-.form-select label{
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
+.ct-pills label{
+    padding: 0.55rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1.5px solid rgba(75, 41, 1, 0.2);
+    border-radius: 999px;
     cursor: pointer;
     user-select: none;
-    padding: 0.5rem 1rem;
-    border-radius: 999px;
-    transition: transform .12s ease, box-shadow .12s ease, color .12s ease;
-    background: transparent;
+    transition: background-color .15s ease, border-color .15s ease, color .15s ease;
 }
-.form-select label::before{
-    content: "";
-    width: 1.25rem;
-    height: 1.25rem;
-    border-radius: 50%;
-    border: 2px solid rgba(0,0,0,0.12);
-    background: #fff;
-    display: inline-block;
-    flex: 0 0 auto;
-    transition: all .12s ease;
+.ct-pills label:hover{
+    border-color: var(--cta);
 }
-.form-select input[type="radio"]:checked + label{
-    color: hsl(15 100% 44%);
-    transform: translateY(-2px);
+.ct-pills input[type="radio"]:checked + label{
+    background-color: var(--cta);
+    border-color: var(--cta);
+    color: var(--white);
 }
-.form-select input[type="radio"]:checked + label::before{
-    background: hsl(15 100% 44%);
-    border-color: hsl(15 100% 44%);
-    box-shadow: inset 0 0 0 .35rem rgba(255,255,255,0.12);
+.ct-pills input[type="radio"]:focus-visible + label{
+    box-shadow: 0 0 0 4px rgba(227, 57, 0, 0.2);
 }
-.form-select input[type="radio"]:focus-visible + label::before{
-    outline: 3px solid rgba(21,120,255,0.18);
-    outline-offset: 4px;
+.ct-success{
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1f6f3a;
+    background-color: rgba(31, 111, 58, 0.08);
+    border: 1px solid rgba(31, 111, 58, 0.25);
+    border-radius: 0.75rem;
 }
-.otrasformas{
-    background-color: var(--crema);
-    border-radius: 3.125rem;
-    padding: 2rem;
-    box-shadow: 0 10px 30px rgba(14,21,47,0.06);
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    align-items: stretch;
+.ct-submit{
     width: 100%;
-    justify-content: center;
-    height: 39rem;
+    padding: 0.9rem;
+    border-radius: 0.9rem;
+    margin-top: 0.25rem;
 }
-.otras-title{
-    font-size: 2.25rem;
-    font-weight: 800;
-    color: rgba(75, 41, 1, 1);
+.ct-submit:hover,
+.ct-submit:focus-visible{
+    transform: translateY(-1px); /* sin el scale global, que en un botón ancho se ve brusco */
 }
-.otras-content{
+
+/* Otras formas de contacto */
+.ct-info{
     display: flex;
     flex-direction: column;
-    align-items: stretch;
     gap: 1.75rem;
-    padding-left: 1rem;
+    padding: 2.5rem 2rem;
+    background-color: var(--brown);
+    color: var(--white);
+    border-radius: 1.75rem;
+    box-shadow: var(--shadow-xl);
 }
-.otrasformas .contact-row{
+.ct-info-title{
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.25;
+}
+.ct-info-sub{
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 0.4rem;
+}
+.ct-list{
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.ct-item{
+    position: relative; /* el enlace se estira para que todo el renglón sea clickeable */
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    width: 100%;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
+    background-color: rgba(255, 255, 255, 0.06);
+    border-radius: 1rem;
+    transition: background-color .15s ease, transform .15s ease;
 }
-.otrasformas .icon-circle{
-    width: 3.5rem;
-    height: 3.5rem;
-    min-width: 3.5rem;
-    min-height: 3.5rem;
-    border-radius: 0.75rem;
+.ct-item:has(a):hover{
+    background-color: rgba(255, 255, 255, 0.12);
+    transform: translateX(4px);
+}
+.ct-icon{
+    width: 2.75rem;
+    height: 2.75rem;
+    flex-shrink: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: transparent;
-    font-size: 1.25rem;
-    flex: 0 0 auto;
+    background-color: var(--cta);
+    border-radius: 0.75rem;
 }
-.otrasformas .contact-sub{
-    font-weight: 800;
-    font-size: 1.25rem;
-    color: #000;
+.ct-icon svg{
+    width: 1.35rem;
+    height: 1.35rem;
+    fill: var(--white);
 }
-.icon-circle svg{
-    fill: rgba(75, 41, 1, 1);
+.ct-item-text{
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+.ct-item-label{
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.6);
+}
+.ct-item-value{
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--white);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+a.ct-item-value::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+}
+a.ct-item-value:focus-visible{
+    outline: none;
+}
+.ct-item:has(a:focus-visible){
+    box-shadow: 0 0 0 3px var(--cta);
 }
  
 /*Footer*/
 footer{
     background-color: rgba(19, 11, 0, 1);
+    color: rgba(255, 255, 255, 0.7);
+    padding-top: 4.5rem; /* los lados los maneja .Maxwidth */
+}
+.ft-top{
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 3rem;
+    padding-bottom: 3rem;
+}
+.ft-brand{
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    max-width: 22rem;
+}
+.ft-logo{
+    width: 12rem;
+}
+.ft-tagline{
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+.ft-social{
+    display: flex;
+    gap: 0.75rem;
+}
+.ft-social a{
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
-    padding: 5rem;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--white);
+    transition: background-color .15s ease, transform .15s ease;
 }
-.footerCont{
-    display: flex;
-    justify-content: space-between;
+.ft-social a:hover,
+.ft-social a:focus-visible{
+    background-color: var(--cta);
+    transform: translateY(-2px);
 }
-.logo-container{
+.ft-social svg{
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: currentColor;
+}
+.ft-store{
+    width: 9rem;
+}
+.ft-title{
+    color: var(--white);
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 1.25rem;
+}
+.ft-title::after{
+    content: "";
+    display: block;
+    width: 2rem;
+    height: 3px;
+    margin-top: 0.5rem;
+    border-radius: 99px;
+    background-color: var(--cta);
+}
+.ft-col ul{
+    list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 0.85rem;
 }
-.Navegar{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    color: white;
-    font-size: 1rem;
-    font-weight: lighter;
+.ft-col a{
+    color: inherit;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color .15s ease;
 }
-#Logo4{
-    width: 20rem;
-}
-#mockup{
-    width: 10rem;
-}
-.Navegar-title{
-    font-size: 1.5rem;
-    font-weight: 900;
-    color: white;
-}
-.textfooter{
-  color: white;
-  background-color: transparent;
-  display: flex;
-  font-size: 1rem;
-  font-weight: lighter;
-}
-.textfooter:hover{
+.ft-col a:hover,
+.ft-col a:focus-visible{
     color: var(--cta);
 }
- 
-/* Responsive */
-@media (max-width: 720px){
-    .otrasformas{ padding: 2rem; }
-    .otras-content{ gap: 1rem; padding-left: 0; }
-    .otrasformas .icon-circle{ width: 3rem; height: 3rem; min-width: 3rem; min-height: 3rem; }
-}
-@media (max-width: 768px){
-    .Cards{ grid-template-columns: 1fr; }
-    .LargeCard{ grid-column: auto; }
-}
-@media (max-width: 480px){
-    .form-select .radio-options{ flex-direction: column; align-items: flex-start; }
+.ft-bottom{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
 }
  
 /* ─── CAROUSEL PROGRESS BAR ─────────────────────────────────────────────── */
@@ -660,10 +832,10 @@ footer{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center; /* Centra horizontalmente */
-  flex: 1; /* Obliga al carrusel a tomar todo el alto restante de la pantalla */
+  align-items: center;
+  flex: 1;
   width: 100%;
-  gap: 3rem; /* Espacio entre el contenido y los botones indicadores */
+  gap: 3rem;
 }
 
 .slides {
@@ -763,7 +935,7 @@ footer{
 }
 .Map{ display: flex; justify-content: center; align-items: center; }
 
-/* Botones del hero: conservamos el hover manual de CSS */
+/* Botones del hero */
 .Head .Buttons > button {
   transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
 }
@@ -782,4 +954,391 @@ footer{
   color: var(--cta);
   border-color: var(--cta);
   box-shadow: 0 6px 18px rgba(14,21,47,0.06);
+}
+
+/*MEDIA QUERIES*/
+@media (max-width: 960px) {
+    .Maxwidth {
+        width: 100% !important;
+        max-width: 960px !important;
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Slide 1 y Slide 3 (Héroe general) */
+    .BodyHead { 
+        flex-direction: column !important; 
+        text-align: center !important; 
+        justify-content: center !important; 
+        height: auto !important;
+        padding-block: 2rem !important; /* sin tocar el padding lateral de .Maxwidth */
+    }
+    .BodyHeadText { 
+        align-items: center !important; 
+        height: auto !important; 
+        padding: 1rem 0 !important; 
+        gap: 1.5rem !important;
+    }
+    .heroWord { 
+        font-size: 2.2rem !important; 
+        line-height: 1.2 !important;
+    }
+    .exampleClient { 
+        width: 100% !important; 
+        max-width: 18rem !important; 
+        height: auto !important; 
+    }
+    .Buttons { 
+        gap: 1rem !important; 
+        flex-wrap: wrap !important; 
+        justify-content: center !important; 
+    }
+    #button-mockup {
+        width: 12rem !important;
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    /* Slide 2 (Cuadros estadísticos limpios en Grid) */
+    .BodyHeadCol { 
+        flex-direction: column !important; 
+        text-align: center !important; 
+        justify-content: center !important;
+        height: auto !important;
+        min-height: unset !important;
+        padding-block: 2rem !important;
+        gap: 1rem !important;
+    }
+    .BodyHeadCol .heroWord {
+        font-size: 1.6rem !important;
+        margin-bottom: 0 !important;
+    }
+    .Squares {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.75rem !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    .Squares > div { 
+        width: 100% !important; 
+        height: 10.5rem !important; 
+        padding: 0.75rem !important;
+    }
+    .aspect-square {
+        font-size: 0.8rem !important;
+    }
+    .icon-holder {
+        font-size: 1.3rem !important;
+    }
+    .icon-quriositi {
+        width: 1.8rem !important;
+        height: 1.8rem !important;
+    }
+    .Head .textfooter {
+        font-size: 0.7rem !important;
+        width: 100% !important;
+    }
+
+    /* Beneficios y Secciones */
+    .ListBenefit { 
+        grid-template-columns: 1fr !important; 
+    }
+
+    /* Cuadro CTA final */
+    .ctaHolder {
+        height: auto !important;
+        padding: 2.5rem 1.5rem !important;
+        box-sizing: border-box !important;
+    }
+    #ctaTitle {
+        width: 100% !important;
+        font-size: 1.6rem !important;
+    }
+    #ctaText {
+        width: 100% !important;
+        font-size: 0.9rem !important;
+    }
+
+    /* Contacto: formulario y otras formas, uno debajo del otro */
+    .ct-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .Cards { 
+        grid-template-columns: 1fr !important; 
+    }
+    .LargeCard { 
+        grid-column: auto !important; 
+        padding: 3rem 1.5rem !important; 
+    }
+    .InerHead { 
+        justify-content: space-between !important; 
+    }
+    #Logo1 {
+        width: 6rem;
+        height: 6rem;
+    }
+
+    .hamburger-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Menú desplegable: tarjeta propia anclada bajo el botón hamburguesa */
+    nav {
+        position: absolute;
+        top: calc(100% + 0.5rem);
+        right: 1.5rem;
+        width: min(16rem, calc(100% - 3rem));
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.25rem;
+        padding: 0.5rem;
+        background-color: rgba(30, 15, 0, 0.97);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 1rem;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+        transform-origin: top right;
+        transform: translateY(-0.5rem) scale(0.95);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: transform 0.2s ease, opacity 0.2s ease, visibility 0.2s;
+        z-index: 99;
+    }
+    nav.nav-open {
+        transform: none;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+    nav a {
+        padding: 0.85rem 1rem;
+        border-radius: 0.6rem;
+    }
+    nav a + a {
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    nav a:hover,
+    nav a:focus-visible {
+        transform: none;
+        background-color: rgba(255, 255, 255, 0.08);
+        box-shadow: none;
+    }
+
+    /* Hero: que quepa en una pantalla vertical */
+    .hero-carousel {
+        gap: 1rem;
+        padding-bottom: 1.5rem;
+    }
+    .carousel-indicators {
+        justify-content: center;
+    }
+    .BodyHead,
+    .BodyHeadCol {
+        padding-block: 0.5rem !important;
+        gap: 1rem !important;
+    }
+    .BodyHeadText {
+        padding: 0 !important;
+        gap: 1rem !important;
+    }
+    .exampleClient {
+        width: auto !important;
+        max-width: 100% !important;
+        max-height: 30vh;
+        max-height: calc(var(--vh, 1svh) * 30);
+    }
+    #button-mockup {
+        max-height: 3.5rem;
+        width: auto !important;
+    }
+    .Buttons {
+        width: 100% !important;
+        min-width: 0 !important;
+        white-space: normal !important;
+        flex-wrap: nowrap !important;
+        gap: 0.75rem !important;
+    }
+    .Buttons > button {
+        flex: 1 1 0;
+        width: auto;
+        padding: 0.7rem 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    /* Nosotros */
+    #textSlogan {
+        width: 100%;
+        font-size: 1.2rem;
+    }
+    #nosotrosTitle {
+        width: 100%;
+        font-size: 1.75rem;
+    }
+    #nosotrosText {
+        width: 100%;
+    }
+    #Logo3 {
+        width: 12rem;
+        opacity: 0.35; /* queda de fondo sin tapar el texto */
+    }
+    .Title {
+        font-size: 1.75rem;
+        padding: 1.5rem 0;
+    }
+    .Text {
+        padding: 1.5rem 0;
+    }
+    .ctaHolder {
+        width: calc(100% - 3rem) !important; /* margen lateral en móvil */
+        border-radius: 2rem;
+    }
+
+    /* Contacto */
+    .contact-Us {
+        gap: 2rem;
+    }
+    .ct-form,
+    .ct-info {
+        padding: 1.75rem 1.25rem;
+        border-radius: 1.5rem;
+    }
+    .ct-row {
+        grid-template-columns: 1fr;
+    }
+    .ct-form-title,
+    .ct-info-title {
+        font-size: 1.3rem;
+    }
+
+    /* Footer: marca arriba y las dos listas de enlaces lado a lado */
+    footer {
+        padding-top: 3rem;
+    }
+    .ft-top {
+        grid-template-columns: 1fr 1fr;
+        gap: 2.5rem 1.5rem;
+        padding-bottom: 2.5rem;
+    }
+    .ft-brand {
+        grid-column: 1 / -1;
+        align-items: center;
+        text-align: center;
+        max-width: none;
+    }
+    .ft-logo {
+        width: 10rem;
+    }
+    .ft-bottom {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .Squares > div {
+        height: auto !important;
+        gap: 0.4rem;
+    }
+    .heroWord { 
+        font-size: 1.6rem !important; 
+    }
+}
+/* Teléfonos en horizontal: poco alto, así que el hero se acomoda en filas en vez de columnas */
+@media (orientation: landscape) and (max-height: 500px) {
+    .InerHead {
+        padding-top: 0.5rem;
+    }
+    #Logo1 {
+        width: 4.5rem;
+        height: 4.5rem;
+    }
+    .hero-carousel {
+        gap: 0.5rem;
+        padding-bottom: 1rem;
+    }
+    .carousel-indicators {
+        justify-content: center;
+    }
+    .carousel-indicators > button {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+    .heroWord {
+        font-size: clamp(1.3rem, 3.2vw, 2rem) !important;
+    }
+
+    /* Slides 1 y 3: texto a la izquierda, imagen a la derecha */
+    .BodyHead {
+        flex-direction: row !important;
+        text-align: left !important;
+        gap: 2rem !important;
+        padding-block: 0 !important;
+    }
+    .BodyHeadText {
+        align-items: flex-start !important;
+        gap: 1rem !important;
+        padding: 0 !important;
+    }
+    .Buttons {
+        width: auto !important;
+        justify-content: flex-start !important;
+        flex-wrap: nowrap !important;
+        gap: 0.75rem !important;
+    }
+    .Buttons > button {
+        width: auto;
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+    .exampleClient {
+        width: auto !important;
+        max-width: 40vw !important;
+        max-height: 55vh;
+        max-height: calc(var(--vh, 1svh) * 55);
+    }
+    #button-mockup {
+        max-height: 3rem;
+        width: auto !important;
+    }
+
+    /* Slide 2: los 4 cuadros en una sola fila */
+    .BodyHeadCol {
+        padding-block: 0 !important;
+        gap: 0.75rem !important;
+    }
+    .BodyHeadCol .heroWord {
+        font-size: clamp(1.2rem, 2.8vw, 1.6rem) !important;
+    }
+    .Squares {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 0.6rem !important;
+    }
+    .Squares > div {
+        height: auto !important;
+        padding: 0.6rem !important;
+        gap: 0.35rem;
+    }
+    .aspect-square {
+        font-size: 0.72rem !important;
+    }
+    .icon-holder {
+        font-size: 1.05rem !important;
+    }
+    .icon-quriositi {
+        width: 1.4rem !important;
+        height: 1.4rem !important;
+    }
+    .Head .textfooter {
+        font-size: 0.65rem !important;
+    }
 }
