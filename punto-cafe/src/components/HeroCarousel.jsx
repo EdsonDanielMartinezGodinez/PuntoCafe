@@ -24,7 +24,7 @@ function SlideMapa() {
           <button className='NoBG'>Tengo una cafeteria</button>
         </div>
       </div>
-      <img src={exampleClient} alt="Graphic example" className='exampleClient' />
+      <img src={exampleClient} alt="Graphic example" className='exampleClient' width="320" height="320" />
     </section>
   )
 }
@@ -54,10 +54,10 @@ function SlideApp() {
     <div className='BodyHead Maxwidth'>
       <div className='BodyHeadText'>
         <p className='heroWord'>LLeva punto<span className='specialColor'>cafe</span> en tu <span className='specialColor'>bolsillo</span></p>
-        <img src={googlePlayBadge} alt="Buton mockup" id='button-mockup' />
+        <img src={googlePlayBadge} alt="Buton mockup" id='button-mockup' width="206" height="81" />
       </div>
       <div>
-        <img src={exampleCell} className='exampleClient' alt="Celular Mock up" />
+        <img src={exampleCell} className='exampleClient' alt="Celular Mock up" width="243" height="313" />
       </div>
     </div>
   )

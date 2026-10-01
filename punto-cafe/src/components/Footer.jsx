@@ -21,7 +21,7 @@ export default function Footer() {
       <div className='Maxwidth'>
         <div className='ft-top'>
           <div className='ft-brand'>
-            <img className='ft-logo' src={logo} alt="puntocafe" />
+            <img className='ft-logo' src={logo} alt="puntocafe" width="1043" height="399" />
             <p className='ft-tagline'>Encuentra tu cafetería ideal y apoya a los negocios locales de tu ciudad.</p>
             <div className='ft-social'>
               {REDES.map((r) => (
@@ -30,7 +30,7 @@ export default function Footer() {
                 </a>
               ))}
             </div>
-            <img className='ft-store' src={googlePlayBadge} alt="Disponible en Google Play" />
+            <img className='ft-store' src={googlePlayBadge} alt="Disponible en Google Play" width="206" height="81" />
           </div>
           {COLUMNAS.map((col) => (
             <div key={col.titulo} className='ft-col'>

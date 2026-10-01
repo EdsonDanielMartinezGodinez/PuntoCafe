@@ -26,7 +26,7 @@ export default function Header() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.56, ease: [0.2, 0.8, 0.2, 1] }}
         >
-          <img id='Logo1' src={logo} alt="Logo puntocafe" />
+          <img id='Logo1' src={logo} alt="Logo puntocafe" width="1043" height="399" />
 
           <button
             className="hamburger-btn"

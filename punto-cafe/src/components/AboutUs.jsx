@@ -15,7 +15,7 @@ export default function AboutUs() {
   return (
     <section className='About-Us generalPad'>
       <Motion.div className='Us Maxwidth' {...REVEAL_SLOGAN}>
-        <img id='Logo2' src={logoPuntocafe} alt="Logo" />
+        <img id='Logo2' src={logoPuntocafe} alt="Logo" width="340" height="68" />
         <p id='textSlogan'>Somos un grupo impulsado para ayudar a las personas a encontrar su cafeteria ideal
           para la situacion.</p>
       </Motion.div>
@@ -25,7 +25,7 @@ export default function AboutUs() {
           <p id='nosotrosText'>Puntocafe nacio con el firme proposito de ayudarte a encontrar el
             lugar ideal para cada momento especial, impulsando la cultura del cafe de especialidad en cada rincon.
             Nuestra pasion por conectar personas con experiencias autenticas es lo que nos mueve cada dia</p>
-          <img id='Logo3' src={logoFrame} alt="Logo3" />
+          <img id='Logo3' src={logoFrame} alt="Logo3" width="295" height="399" />
         </Motion.div>
         {VALORES.map((v) => (
           <Motion.div key={v.titulo} className='Card' variants={fadeUpVariant}>
