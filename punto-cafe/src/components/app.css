@@ -1150,11 +1150,14 @@ footer{
         padding: 0 !important;
         gap: 1rem !important;
     }
+    /* Altura definida (la natural de la imagen, con tope de 30% de pantalla) para que el
+       navegador reserve el espacio antes de que cargue y el texto no salte (CLS) */
     .exampleClient {
         width: auto !important;
         max-width: 100% !important;
-        max-height: 30vh;
-        max-height: calc(var(--vh, 1svh) * 30);
+        height: min(30vh, 20rem) !important;
+        height: min(calc(var(--vh, 1svh) * 30), 20rem) !important;
+        object-fit: contain;
     }
     #button-mockup {
         max-height: 3.5rem;
@@ -1304,8 +1307,9 @@ footer{
     .exampleClient {
         width: auto !important;
         max-width: 40vw !important;
-        max-height: 55vh;
-        max-height: calc(var(--vh, 1svh) * 55);
+        height: min(55vh, 20rem) !important;
+        height: min(calc(var(--vh, 1svh) * 55), 20rem) !important;
+        object-fit: contain;
     }
     #button-mockup {
         max-height: 3rem;
