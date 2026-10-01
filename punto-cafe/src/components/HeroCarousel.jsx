@@ -94,7 +94,9 @@ export default function HeroCarousel() {
         onPointerCancel={resume}
       >
         <div className="slides">
-          <AnimatePresence mode="wait">
+          {/* initial={false}: el primer slide aparece sin animación de entrada, para no retrasar
+              el contenido principal de la página (LCP); los cambios de slide sí se animan */}
+          <AnimatePresence mode="wait" initial={false}>
             <Motion.div
               key={activeIndex}
               className="slide active"

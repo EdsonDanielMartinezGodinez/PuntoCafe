@@ -1,6 +1,6 @@
 /* New theme variables for consistency */
 :root{
-  --cta: hsl(15, 100%, 44%);
+  --cta: hsl(15, 100%, 43%); /* 43% (no 44%) para que el texto blanco encima pase el contraste mínimo de 4.5 */
   --cta-dark: hsl(15, 100%, 38%);
   --white: #ffffff;
   --crema: #faead9;
